@@ -21,12 +21,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         //Prepare a select statment 
         $sql = "SELECT id FROM users WHERE username = ?";
 
-        if($stms= mysqli_prepare($link,$sql)){
+        if($stmt= mysqli_prepare($link,$sql)){
             //Bind variables to the prepared statment as parameters
             mysqli_stmt_bind_param($stmt, "s", $param_username);
             
             //Set parameters 
-            $param_username = trime($_POST["username"]);
+            $param_username = trim($_POST["username"]);
 
             //Attempt to execture the prepared statment 
             if(mysqli_stmt_execute($stmt)){
@@ -63,9 +63,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     if(empty(trim($_POST["confirm_password"]))){
         $confirm_password_err = "Please confrim password.";
     } else{
-        $confrim_password = trim($_POST["confrim_password"]);
+        $confirm_password = trim($_POST["confrim_password"]);
         if (empty($password_err) && ($password != $confrim_password)){
-            $confrim_password = "Password did not match.";
+            $confirm_password = "Password did not match.";
         }
     }
 
@@ -76,7 +76,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         $sql = "INSERT INTO users (username, password) VALUES (?.?)";
 
         if($stmt = mysqli_prepare($link, $sql)){
-            //Bind variables to the prepared statment as parameters
+            //Bind variabsles to the prepared statment as parameters
             mysqli_stmt_bind_param($stmt, "ss", $param_username, $param_password);
 
             //Set parameters 
@@ -124,7 +124,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             </div>
             <div class="form-group">
                 <label>Password</label>
-                <input type="password" name="password" class="formcontrol <?php echo (!emtpy($password_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $password; ?>">
+                <input type="password" name="password" class="formcontrol <?php echo (!empty($password_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $password; ?>">
                 <span class="invalid-feedback"><?php echo $password_err; ?></span>
             </div>
             <div class="form-group">
