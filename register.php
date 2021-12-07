@@ -1,4 +1,6 @@
 <?php
+//Still not working as it doesn't save to database
+
 
 //Include config file
 require_once "config.php";
@@ -63,14 +65,14 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     if(empty(trim($_POST["confirm_password"]))){
         $confirm_password_err = "Please confrim password.";
     } else{
-        $confirm_password = trim($_POST["confrim_password"]);
-        if (empty($password_err) && ($password != $confrim_password)){
+        $confirm_password = trim($_POST["confirm_password"]);
+        if (empty($password_err) && ($password != $confirm_password)){
             $confirm_password = "Password did not match.";
         }
     }
 
     // Check input errors before inserting in database 
-    if(empty($username_err) && empty(password_err) && empty($confirm_password_err)){
+    if(empty($username_err) && empty($password_err) && empty($confirm_password_err)){
 
         //Prepare an insert statment 
         $sql = "INSERT INTO users (username, password) VALUES (?.?)";
@@ -95,7 +97,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     }
     
     //Close connection 
-    mysqli_stmt_close($link);
+    mysqli_close($link);
 
 }
 ?>
