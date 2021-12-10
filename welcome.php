@@ -18,6 +18,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     <link rel="stylesheet" href="css/styles.css">
     <script src="js/timer.js"></script>
     <script src="js/Welcome.js"></script>
+    <link rel="shortcut icon" href="css/img/favicon.ico">
 </head>
 <body>
     <div class="welcomebackground">
