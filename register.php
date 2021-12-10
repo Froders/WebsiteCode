@@ -1,42 +1,37 @@
 <?php
-//Still not working as it doesn't save to database
-
-
-//Include config file
+// Include config file
 require_once "config.php";
-
-// Define variables and initialise with empty values 
+ 
+// Define variables and initialize with empty values
 $username = $password = $confirm_password = "";
 $username_err = $password_err = $confirm_password_err = "";
-
-//Processing form data when form is submitted 
+ 
+// Processing form data when form is submitted
 if($_SERVER["REQUEST_METHOD"] == "POST"){
-
-    //Validate username 
-    //If username is empty state please enter a username
+ 
+    // Validate username
     if(empty(trim($_POST["username"]))){
         $username_err = "Please enter a username.";
-        //Next line makes sure that they fit into the criteria
     } elseif(!preg_match('/^[a-zA-Z0-9_]+$/', trim($_POST["username"]))){
         $username_err = "Username can only contain letters, numbers, and underscores.";
     } else{
-        //Prepare a select statment 
+        // Prepare a select statement
         $sql = "SELECT id FROM users WHERE username = ?";
-
-        if($stmt= mysqli_prepare($link,$sql)){
-            //Bind variables to the prepared statment as parameters
+        
+        if($stmt = mysqli_prepare($link, $sql)){
+            // Bind variables to the prepared statement as parameters
             mysqli_stmt_bind_param($stmt, "s", $param_username);
             
-            //Set parameters 
+            // Set parameters
             $param_username = trim($_POST["username"]);
-
-            //Attempt to execture the prepared statment 
+            
+            // Attempt to execute the prepared statement
             if(mysqli_stmt_execute($stmt)){
-                //Store Result
+                /* store result */
                 mysqli_stmt_store_result($stmt);
-
+                
                 if(mysqli_stmt_num_rows($stmt) == 1){
-                    $username_err = "This username is already taken";
+                    $username_err = "This username is already taken.";
                 } else{
                     $username = trim($_POST["username"]);
                 }
@@ -44,102 +39,99 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                 echo "Oops! Something went wrong. Please try again later.";
             }
 
-            //Close stament 
+            // Close statement
             mysqli_stmt_close($stmt);
-        
-                
-            
         }
     }
-
-    //Validate Password 
+    
+    // Validate password
     if(empty(trim($_POST["password"]))){
-        $password_err = "Please enter a password.";
-    } elseif(strlen(trim($_POST["password"])) <6){
-        $password_err = "Password must have at least 6 characters.";
+        $password_err = "Please enter a password.";     
+    } elseif(strlen(trim($_POST["password"])) < 6){
+        $password_err = "Password must have atleast 6 characters.";
     } else{
         $password = trim($_POST["password"]);
     }
-
-    //Validate confirm password
+    
+    // Validate confirm password
     if(empty(trim($_POST["confirm_password"]))){
-        $confirm_password_err = "Please confrim password.";
+        $confirm_password_err = "Please confirm password.";     
     } else{
         $confirm_password = trim($_POST["confirm_password"]);
-        if (empty($password_err) && ($password != $confirm_password)){
-            $confirm_password = "Password did not match.";
+        if(empty($password_err) && ($password != $confirm_password)){
+            $confirm_password_err = "Password did not match.";
         }
     }
-
-    // Check input errors before inserting in database 
+    
+    // Check input errors before inserting in database
     if(empty($username_err) && empty($password_err) && empty($confirm_password_err)){
-
-        //Prepare an insert statment 
-        $sql = "INSERT INTO users (username, password) VALUES (?.?)";
-
+        
+        // Prepare an insert statement
+        $sql = "INSERT INTO users (username, password) VALUES (?, ?)";
+         
         if($stmt = mysqli_prepare($link, $sql)){
-            //Bind variabsles to the prepared statment as parameters
+            // Bind variables to the prepared statement as parameters
             mysqli_stmt_bind_param($stmt, "ss", $param_username, $param_password);
-
-            //Set parameters 
+            
+            // Set parameters
             $param_username = $username;
-            $param_password = password_hash($password, PASSWORD_DEFAULT); //Creates a password hash 
-
-            //Attempt to execute the prepared statment 
+            $param_password = password_hash($password, PASSWORD_DEFAULT); // Creates a password hash
+            
+            // Attempt to execute the prepared statement
             if(mysqli_stmt_execute($stmt)){
-                //Redirect to login page 
+                // Redirect to login page
                 header("location: login.php");
             } else{
                 echo "Oops! Something went wrong. Please try again later.";
             }
+
+            // Close statement
             mysqli_stmt_close($stmt);
-        }        
+        }
     }
     
-    //Close connection 
+    // Close connection
     mysqli_close($link);
-
 }
 ?>
-
-<DOCTYPE html>
+ 
+<!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset = "UTF-8">
-    <title>Sign up </title>
-    <link rel = "stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <meta charset="UTF-8">
+    <title>Sign Up</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
-        body{ font: 14px sans-serif;}
-        .wrapper{ width:360px; padding: 20px; }
+        body{ font: 14px sans-serif; }
+        .wrapper{ width: 360px; padding: 20px; }
     </style>
 </head>
 <body>
-    <div class = "wrapper">
-        <h2> Sign Up </h2> 
-        <p> Please fill in this form to create an account. </p>
+    <div class="wrapper">
+        <h2>Sign Up</h2>
+        <p>Please fill this form to create an account.</p>
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
             <div class="form-group">
-                <label> Username </label>
-                <input type="text" name="username" class="form-control <?php echo(!empty($username)) ? 'is-invalid':''; ?>" value="<?php echo $username; ?>">
+                <label>Username</label>
+                <input type="text" name="username" class="form-control <?php echo (!empty($username_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $username; ?>">
                 <span class="invalid-feedback"><?php echo $username_err; ?></span>
-            </div>
+            </div>    
             <div class="form-group">
                 <label>Password</label>
-                <input type="password" name="password" class="formcontrol <?php echo (!empty($password_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $password; ?>">
+                <input type="password" name="password" class="form-control <?php echo (!empty($password_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $password; ?>">
                 <span class="invalid-feedback"><?php echo $password_err; ?></span>
             </div>
             <div class="form-group">
-                  <label>Confirm Password</label>
-                  <input type="password" name="confirm_password" class="form-control <?php echo (!empty($confirm_password_err)) ? 'is-invalid':''; ?>" value="<?php echo $confirm_password; ?>">
-                  <span class="invalid-feedback"><?php echo $confirm_password_err; ?></span>
+                <label>Confirm Password</label>
+                <input type="password" name="confirm_password" class="form-control <?php echo (!empty($confirm_password_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $confirm_password; ?>">
+                <span class="invalid-feedback"><?php echo $confirm_password_err; ?></span>
             </div>
             <div class="form-group">
                 <input type="submit" class="btn btn-primary" value="Submit">
-                <input type="submit" class="btn btn-secondary m1-2" value="Reset">
+                <input type="reset" class="btn btn-secondary ml-2" value="Reset">
             </div>
-            <p> Already have an account? <a href="login.php"> Login here </a>.</p>
+            <p>Already have an account? <a href="login.php">Login here</a>.</p>
         </form>
-    </div>
-</body> 
+    </div>    
+</body>
 </html>

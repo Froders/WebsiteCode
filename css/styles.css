@@ -1,0 +1,48 @@
+body, html{
+    height:100%
+}
+
+.its_christmas{
+    background-image:url('img/ChristmasTree.jpg');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+}
+
+.bgimglogin{
+    /* Background image */
+    background-image: url('img/loginbackground.jpg');
+    /* Full-screen */
+    height: 100%;
+    /* Centre the background image */
+    background-position: center;
+    /* Scale and zoom in the image */
+    background-size: cover;
+    /* Add position: relative to enable absolutely postitioned elements inside the image */
+    position:relative;
+    /* Add a white text color to all elements */
+    color: white;
+    /* Add a font */
+}
+
+.welcomebackground{
+    /* Background image */
+    background-image: url('img/Welcome\ Background.jpg');
+    /*Full-screen */
+    height: 100%;
+    /* Centre the background image */
+    background-position: center;
+    /* Scale and zoom in the image */
+    background-size: cover;
+    /* Add position */
+    position: relative;
+    /* Add a white text colour to all elements */
+    color: white
+}
+
+.importantinfo{
+    /* Adding a background to contrast the white text */
+    background: rgba(0, 0, 0, 0.5);
+
+
+}
