@@ -19,10 +19,13 @@
             </button>
         </a>
     </div>
-    <div id="months">
-        <a>
-            <button class="button"> 
-                <input type="submit">
-            </button > 
-            </a>
-
+    <div class="dropbtn">
+        <button onclick="myFunction()" class="dropbtn">
+        Dropdown
+        </button>
+        <div id="myDropdown" class="dropdown-content">
+            <a href="view.php"> Link 1 </a>
+            <a href="view.php"> Link 2 </a>
+            <a href="view.php"> Link 3 </a> 
+        </div>
+    </div>
