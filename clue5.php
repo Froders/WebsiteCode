@@ -20,5 +20,5 @@
         <h1> Heading </h1>
         <p> fdflkdlfkd </p>
         <!-- Use a button to pause/play the video with JavaScript -->
-        <button id="myBtn" onclick="myFunction()">Pause</button>
+        <button id="playandpause" onclick="myFunction()">Pause</button>
     </div>

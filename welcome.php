@@ -43,12 +43,13 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 
             </div>
 
-            <div id="Forum">
-                <h1> Welcome to the Message Board </h1> 
-                <?php
-                echo 
-
-
+            <div id="Gallery">
+                <a href="imgboard/notfinished.php">
+                <button>
+                    <span> Link to Gallery </span>
+                </button>
+                </a>
+            </div>
         </div>
     </div>
 </body>

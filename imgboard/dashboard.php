@@ -1,3 +1,14 @@
+<?php
+// Initialize the session
+session_start();
+ 
+// Check if the user is logged in, if not then redirect him to login page
+if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
+    header("location: login.php");
+    exit;
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,7 +16,9 @@
     <title>Image Dashboard </title>
     <!-- This href tag shows how to use files in parent folder -->
     <link rel="shortcut icon" href="../css/img/favicon.ico">
-    <link rel="stylesheet" href="../css/comingsoon.css">
+    <link rel="stylesheet" href="../css/styles.css">
+    <script src="../js/showmore.js"></script>
+
 </head>
 <body> 
     <div class="header"> 
@@ -19,13 +32,11 @@
             </button>
         </a>
     </div>
-    <div class="dropbtn">
-        <button onclick="myFunction()" class="dropbtn">
-        Dropdown
-        </button>
-        <div id="myDropdown" class="dropdown-content">
-            <a href="view.php"> Link 1 </a>
-            <a href="view.php"> Link 2 </a>
-            <a href="view.php"> Link 3 </a> 
-        </div>
-    </div>
+    <div class="dropdown">
+        <button class="dropbtn">Dropdown</button>
+        <div class="dropdown-content">
+        <a href="#">Link 1</a>
+        <a href="#">Link 2</a>
+        <a href="#">Link 3</a>
+  </div>
+</div> 
