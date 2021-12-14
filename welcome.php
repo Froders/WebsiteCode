@@ -42,6 +42,13 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
                 <h2 id="xmas"></h2>
 
             </div>
+
+            <div id="Forum">
+                <h1> Welcome to the Message Board </h1> 
+                <?php
+                echo 
+
+
         </div>
     </div>
 </body>
